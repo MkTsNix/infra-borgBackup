@@ -1,0 +1,70 @@
+---
+ - name: 'Prepare stands borg backup'
+   hosts: all
+   become: true
+   gather_facts: true
+   vars:
+
+   tasks:
+     - name: 'Install required packages'
+       yum:
+         name:
+           - nano
+           - net-tools
+           - epel-release
+         state: present
+
+     - name: 'Install Borgbackup'
+       get_url:
+         url: https://github.com/borgbackup/borg/releases/download/1.1.11/borg-linux64
+         dest: /usr/bin/borg
+         owner: root
+         group: root
+         mode: '0777'
+
+     - name: 'Disable Selinux'
+       selinux:
+         state: disabled
+
+     - name: 'Edit file hosts'
+       blockinfile:
+         path: /etc/hosts
+         block: |
+           127.0.0.1       {{ ansible_host }} {{ ansible_host }}
+           127.0.0.1   localhost localhost.localdomain localhost4 localhost4.localdomain4
+           ::1         localhost localhost.localdomain localhost6 localhost6.localdomain6
+           192.168.11.101 backup
+
+     - name: 'Copy backup.sh from template'
+       template:
+         src: ../templates/backup.sh
+         dest: /root/
+       when: ansible_hostname=='server'
+
+     - name: 'Changing perm of backup.sh adding +x'
+       file:
+         dest: /root/backup.sh
+         mode: a+x
+       when: ansible_hostname=='server'
+
+     - name: 'Create logfile'
+       file:
+         path: /var/log/borgbackup.log
+         state: touch
+       when: ansible_hostname=='server'
+
+     - name: 'Add backup task to cronttab, and redirect output to logfile'
+       cron:
+         name: 'Backup etc directory'
+         minute: '0'
+         hour: '*/1'
+         day: "*"
+         month: "*"
+         weekday: "*"
+         user: root
+         job: /root/backup.sh
+
+     - name: 'Add to root env'
+       shell: echo "export BORG_RELOCATED_REPO_ACCESS_IS_OK=yes" >> /root/.bash_profile
+       when: ansible_hostname=='server'
+

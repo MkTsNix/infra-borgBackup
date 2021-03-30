@@ -1,0 +1,286 @@
+Script started on 2020-05-22 10:48:44+06:00 [TERM="xterm-256color" TTY="/dev/pts/4" COLUMNS="271" LINES="63"]
+]0;mkts@MkTsNix-KDE: ~/learing/otus_course/lesson17-backup/hw17[01;32mmkts@MkTsNix-KDE[00m:[01;34m~/learing/otus_course/lesson17-backup/hw17[00m$ ba[K[Kvagrant ssh server
+NOTE: Gem::Specification.default_specifications_dir is deprecated; use Gem.default_specifications_dir instead. It will be removed on or after 2020-02-01.
+Gem::Specification.default_specifications_dir called from /usr/share/rubygems-integration/all/gems/vagrant-2.2.6/lib/vagrant/bundler.rb:428.
+NOTE: Gem::Specification.default_specifications_dir is deprecated; use Gem.default_specifications_dir instead. It will be removed on or after 2020-02-01.
+Gem::Specification.default_specifications_dir called from /usr/share/rubygems-integration/all/gems/vagrant-2.2.6/lib/vagrant/bundler.rb:428.
+/usr/share/rubygems-integration/all/gems/vagrant-2.2.6/lib/vagrant/errors.rb:103: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+/usr/share/rubygems-integration/all/gems/i18n-1.8.2/lib/i18n.rb:195: warning: The called method `t' is defined here
+/usr/share/rubygems-integration/all/gems/vagrant-2.2.6/plugins/kernel_v2/config/vm.rb:354: warning: Using the last argument as keyword parameters is deprecated; maybe ** should be added to the call
+/usr/share/rubygems-integration/all/gems/vagrant-2.2.6/plugins/kernel_v2/config/vm_provisioner.rb:92: warning: The called method `add_config' is defined here
+Last login: Fri May 22 04:48:18 2020 from 10.0.2.2
+]0;vagrant@server:~[?1034h[vagrant@server ~]$ sudo -i
+]0;root@server:~[?1034h[root@server ~]# clear
+[3;J[H[2J]0;root@server:~[root@server ~]# ssh-keygen -t rsa
+Generating public/private rsa key pair.
+Enter file in which to save the key (/root/.ssh/id_rsa): 
+Enter passphrase (empty for no passphrase): 
+Enter same passphrase again: 
+Your identification has been saved in /root/.ssh/id_rsa.
+Your public key has been saved in /root/.ssh/id_rsa.pub.
+The key fingerprint is:
+SHA256:1GkvhZrPDQeSH3/pWo/2kwCyVGyUPk1CJW+T+qRAfD4 root@server
+The key's randomart image is:
++---[RSA 2048]----+
+|          ++o.   |
+|        .o Oo..  |
+|        +o@.==   |
+|       ..OoXo... |
+|        S.*E*.o  |
+|         +.==+   |
+|          o...+ .|
+|             o.= |
+|            ....+|
++----[SHA256]-----+
+]0;root@server:~[root@server ~]# ssh-copy-id -i ~/.ssh/id_rsa.pub root@backup
+/bin/ssh-copy-id: INFO: Source of key(s) to be installed: "/root/.ssh/id_rsa.pub"
+The authenticity of host 'backup (192.168.11.101)' can't be established.
+ECDSA key fingerprint is SHA256:lbBAsyNpJ/cS9o7MdCwtpjrBl+CSKaGqhCSUPyssNhA.
+ECDSA key fingerprint is MD5:6e:19:6a:00:f8:02:b3:2e:0a:fa:4d:a1:4b:e9:55:36.
+Are you sure you want to continue connecting (yes/no)? yes
+/bin/ssh-copy-id: INFO: attempting to log in with the new key(s), to filter out any that are already installed
+/bin/ssh-copy-id: INFO: 1 key(s) remain to be installed -- if you are prompted now it is to install the new keys
+root@backup's password: 
+
+Number of key(s) added: 1
+
+Now try logging into the machine, with:   "ssh 'root@backup'"
+and check to make sure that only the key(s) you wanted were added.
+
+]0;root@server:~[root@server ~]# borg init -e none backup:backup-etc
+]0;root@server:~[root@server ~]# sh backup.sh 
+backup-etc
+Warning: The repository at location ssh://root@backup/./backup-etc was previously located at ssh://backup/./backup-etc
+Do you want to continue? [yN] y
+0 B O 0 B C 0 B D 0 N etc                                                                                                                                                                                                                                                      Initializing cache transaction: Reading config                                                                                                                                                                                                                                 Initializing cache transaction: Reading chunks                                                                                                                                                                                                                                 Initializing cache transaction: Reading files                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                 8.89 MB O 2.85 MB C 2.85 MB D 157 N etc/udev/hwdb.bin                                                                                                                                                                                                                          13.80 MB O 4.92 MB C 4.92 MB D 308 N etc/selinux/targeted/active/modules/100/dnssec/cil                                                                                                                                                                                        15.14 MB O 6.20 MB C 6.20 MB D 575 N etc/selinux/targeted/active/modules/100/ccs/lang_ext                                                                                                                                                                                      16.25 MB O 7.25 MB C 7.25 MB D 823 N etc/selinux/targeted/active/modules/100/usbmuxd/lang_ext                                                                                                                                                                                  17.43 MB O 8.37 MB C 8.36 MB D 1074 N etc/selinux/targeted/active/modules/100/sasl/lang_ext                                                                                                                                                                                    18.72 MB O 9.60 MB C 9.60 MB D 1323 N etc/selinux/targeted/active/modules/100/openvpn/lang_ext                                                                                                                                                                                 25.27 MB O 12.22 MB C 10.61 MB D 1498 N etc/vmware-tools/vgauth/schemas/datatypes.dtd                                                                                                                                                                                          Remote: Compacting segments   0%Remote: Compacting segments  50%Saving files cache                                                                                                                                                                                                                                                             Saving chunks cache                                                                                                                                                                                                                                                            Saving cache config                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                          ------------------------------------------------------------------------------
+Archive name: etc-2020-05-22_04:49:33
+Archive fingerprint: a9e1d009d85c3457de87f29b35e15de4de4ae9780668d75e824dfdd6039c259e
+Time (start): Fri, 2020-05-22 04:49:36
+Time (end):   Fri, 2020-05-22 04:49:37
+Duration: 1.65 seconds
+Number of files: 1692
+Utilization of max. archive size: 0%
+------------------------------------------------------------------------------
+                       Original size      Compressed size    Deduplicated size
+This archive:               27.81 MB             13.20 MB             11.58 MB
+All archives:               27.81 MB             13.20 MB             11.58 MB
+
+                       Unique chunks         Total chunks
+Chunk index:                    1274                 1689
+------------------------------------------------------------------------------
+Keeping archive: etc-2020-05-22_04:49:33              Fri, 2020-05-22 04:49:36 [a9e1d009d85c3457de87f29b35e15de4de4ae9780668d75e824dfdd6039c259e]
+]0;root@server:~[root@server ~]# mkdir /backup
+]0;root@server:~[root@server ~]# borg list backup:backup-etc
+Warning: The repository at location ssh://backup/./backup-etc was previously located at ssh://root@backup/./backup-etc
+Do you want to continue? [yN] y
+etc-2020-05-22_04:49:33              Fri, 2020-05-22 04:49:36 [a9e1d009d85c3457de87f29b35e15de4de4ae9780668d75e824dfdd6039c259e]
+]0;root@server:~[root@server ~]# borg mount backup:backup-etc:: /backup/
+usage: borg mount [-h] [--critical] [--error] [--warning] [--info] [--debug]
+                  [--debug-topic TOPIC] [-p] [--log-json]
+                  [--lock-wait SECONDS] [--show-version] [--show-rc]
+                  [--umask M] [--remote-path PATH] [--remote-ratelimit RATE]
+                  [--consider-part-files] [--debug-profile FILE] [--rsh RSH]
+                  [-f] [-o OPTIONS] [-P PREFIX | -a GLOB] [--sort-by KEYS]
+                  [--first N | --last N] [-e PATTERN]
+                  [--exclude-from EXCLUDEFILE] [--pattern PATTERN]
+                  [--patterns-from PATTERNFILE] [--strip-components NUMBER]
+                  REPOSITORY_OR_ARCHIVE MOUNTPOINT [PATH [PATH ...]]
+borg mount: error: argument REPOSITORY_OR_ARCHIVE: Invalid location format: "backup:backup-etc::"
+]0;root@server:~[root@server ~]# borg mount backup:backup-etc:: /backup/[root@server ~]# borg [12Plist backup:backup-etcmount backup:backup-etc:: /backup/[1@e[1@t[1@c[1@-[1@2[1@0[1@2[1@0[1@-[1@0[1@5[1@-[1@2[1@2[1@_[1@0[1@4[1@:[1@4[1@9[1@:[1@3[1@3
+]0;root@server:~[root@server ~]# ls -l  /backup/
+[0m[38;5;27metc[0m
+]0;root@server:~[root@server ~]# ls -lah /va  backup/etc/
+total 822K
+drwxr-xr-x. 1 root root      0 May 22 04:47 [0m[38;5;27m.[0m
+drwxr-xr-x. 1 root root      0 May 22 04:50 [38;5;27m..[0m
+-rw-------. 1 root root      0 Jun  1  2019 .pwd.lock
+-rw-r--r--. 1 root root    163 Jun  1  2019 .updated
+-rw-r--r--. 1 root root   5.0K Oct 30  2018 DIR_COLORS
+-rw-r--r--. 1 root root   5.6K Oct 30  2018 DIR_COLORS.256color
+-rw-r--r--. 1 root root   4.6K Oct 30  2018 DIR_COLORS.lightbgcolor
+-rw-r--r--. 1 root root     94 Mar 24  2017 GREP_COLORS
+-rw-r--r--. 1 root root    842 Oct 30  2018 GeoIP.conf
+-rw-r--r--. 1 root root    858 Oct 30  2018 GeoIP.conf.default
+drwxr-xr-x. 1 root root      0 May 15  2018 [38;5;27mNetworkManager[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mX11[0m
+-rw-r--r--. 1 root root     16 Jun  1  2019 adjtime
+-rw-r--r--. 1 root root   1.5K Jun  7  2013 aliases
+-rw-r--r--. 1 root root    12K May 22 04:46 aliases.db
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27malternatives[0m
+-rw-------. 1 root root    541 Nov 20  2018 anacrontab
+drwxr-x---. 1 root root      0 Jun  1  2019 [38;5;27maudisp[0m
+drwxr-x---. 1 root root      0 May 22 04:46 [38;5;27maudit[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mbash_completion.d[0m
+-rw-r--r--. 1 root root   2.8K Oct 30  2018 bashrc
+drwxr-xr-x. 1 root root      0 Apr 25  2019 [38;5;27mbinfmt.d[0m
+-rw-r--r--. 1 root root     38 Nov 23  2018 centos-release
+-rw-r--r--. 1 root root     51 Nov 23  2018 centos-release-upstream
+drwxr-xr-x. 1 root root      0 Aug  4  2017 [38;5;27mchkconfig.d[0m
+-rw-r--r--. 1 root root   1.1K Apr 12  2018 chrony.conf
+-rw-r-----. 1 root chrony  481 Sep 15  2017 chrony.keys
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mcifs-utils[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mcron.d[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mcron.daily[0m
+-rw-------. 1 root root      0 Nov 20  2018 cron.deny
+drwxr-xr-x. 1 root root      0 Jun  9  2014 [38;5;27mcron.hourly[0m
+drwxr-xr-x. 1 root root      0 Jun  9  2014 [38;5;27mcron.monthly[0m
+drwxr-xr-x. 1 root root      0 Jun  9  2014 [38;5;27mcron.weekly[0m
+-rw-r--r--. 1 root root    451 Jun  9  2014 crontab
+-rw-------. 1 root root      0 Jun  1  2019 crypttab
+-rw-r--r--. 1 root root   1.6K Oct 30  2018 csh.cshrc
+-rw-r--r--. 1 root root    866 Oct 30  2018 csh.login
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mdbus-1[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mdefault[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mdepmod.d[0m
+drwxr-x---. 1 root root      0 Jun  1  2019 [38;5;27mdhcp[0m
+-rw-r--r--. 1 root root   1.3K Nov  2  2018 dracut.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mdracut.conf.d[0m
+-rw-r--r--. 1 root root    112 Oct 30  2018 e2fsck.conf
+-rw-r--r--. 1 root root      0 Oct 30  2018 environment
+-rw-r--r--. 1 root root   1.3K Apr 11  2018 ethertypes
+-rw-r--r--. 1 root root      0 Jun  7  2013 exports
+drwxr-xr-x. 1 root root      0 Nov  7  2018 [38;5;27mexports.d[0m
+-rw-r--r--. 1 root root     70 Oct 30  2018 filesystems
+drwxr-x---. 1 root root      0 Jun  1  2019 [38;5;27mfirewalld[0m
+-rw-r--r--. 1 root root    346 Jun  1  2019 fstab
+-rw-r--r--. 1 root root     38 Oct 30  2018 fuse.conf
+drwxr-xr-x. 1 root root      0 Aug  2  2017 [38;5;27mgcrypt[0m
+drwxr-xr-x. 1 root root      0 Jul 13  2018 [38;5;27mgnupg[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mgroff[0m
+-rw-r--r--. 1 root root    533 Jun  1  2019 group
+-rw-r--r--. 1 root root    526 Jun  1  2019 group-
+drwx------. 1 root root      0 Jun  1  2019 [38;5;27mgrub.d[0m
+lrwxrwxrwx. 1 root root     22 Jun  1  2019 [48;5;232;38;5;9mgrub2.cfg[0m -> [05;48;5;232;38;5;15m../boot/grub2/grub.cfg[0m
+----------. 1 root root    425 Jun  1  2019 gshadow
+----------. 1 root root    418 Jun  1  2019 gshadow-
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mgss[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mgssproxy[0m
+-rw-r--r--. 1 root root      9 Jun  7  2013 host.conf
+-rw-r--r--. 1 root root      7 May 22 04:46 hostname
+-rw-r--r--. 1 root root    456 May 22 04:47 hosts
+-rw-r--r--. 1 root root    370 Jun  7  2013 hosts.allow
+-rw-r--r--. 1 root root    460 Jun  7  2013 hosts.deny
+-rw-r--r--. 1 root root   4.8K Apr 11  2018 idmapd.conf
+lrwxrwxrwx. 1 root root     11 Jun  1  2019 [38;5;51minit.d[0m -> [38;5;27mrc.d/init.d[0m
+-rw-r--r--. 1 root root    511 Oct 30  2018 inittab
+-rw-r--r--. 1 root root    942 Jun  7  2013 inputrc
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27miproute2[0m
+-rw-r--r--. 1 root root     23 Nov 23  2018 issue
+-rw-r--r--. 1 root root     22 Nov 23  2018 issue.net
+-rw-r--r--. 1 root root    641 Jan 29  2019 krb5.conf
+drwxr-xr-x. 1 root root      0 Jan 29  2019 [38;5;27mkrb5.conf.d[0m
+-rw-r--r--. 1 root root    22K Jun  1  2019 ld.so.cache
+-rw-r--r--. 1 root root     28 Feb 27  2013 ld.so.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mld.so.conf.d[0m
+-rw-r-----. 1 root root    191 Jun 19  2018 libaudit.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mlibnl[0m
+-rw-r--r--. 1 root root   2.4K Jun  1  2019 libuser.conf
+-rw-r--r--. 1 root root     19 Jun  1  2019 locale.conf
+lrwxrwxrwx. 1 root root     25 Jun  1  2019 [48;5;232;38;5;9mlocaltime[0m -> [05;48;5;232;38;5;15m../usr/share/zoneinfo/UTC[0m
+-rw-r--r--. 1 root root   2.0K Jun  1  2019 login.defs
+-rw-r--r--. 1 root root    662 Jul 31  2013 logrotate.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mlogrotate.d[0m
+-r--r--r--. 1 root root     33 May 22 04:46 machine-id
+-rw-r--r--. 1 root root    111 Oct 30  2018 magic
+-rw-r--r--. 1 root root   5.1K Oct 30  2018 man_db.conf
+-rw-r--r--. 1 root root    936 Oct 30  2018 mke2fs.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mmodprobe.d[0m
+drwxr-xr-x. 1 root root      0 Apr 25  2019 [38;5;27mmodules-load.d[0m
+-rw-r--r--. 1 root root      0 Jun  7  2013 motd
+lrwxrwxrwx. 1 root root     17 Jun  1  2019 [38;5;51mmtab[0m -> /proc/self/mounts
+-rw-r--r--. 1 root root    570 Aug 16  2018 my.cnf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mmy.cnf.d[0m
+-rw-r--r--. 1 root root   8.7K Jun 10  2014 nanorc
+-rw-r--r--. 1 root root    767 Oct 31  2018 netconfig
+-rw-r--r--. 1 root root     58 Oct 30  2018 networks
+-rw-r--r--. 1 root root    967 Nov  7  2018 nfs.conf
+-rw-r--r--. 1 root root   3.4K Nov  7  2018 nfsmount.conf
+-rw-r--r--. 1 root root   1.8K Jun  1  2019 nsswitch.conf
+-rw-r--r--. 1 root root   1.7K May  8  2019 nsswitch.conf.bak
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mopenldap[0m
+drwxr-xr-x. 1 root root      0 Apr 11  2018 [38;5;27mopt[0m
+-rw-r--r--. 1 root root    393 Nov 23  2018 os-release
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpam.d[0m
+-rw-r--r--. 1 root root   1.1K Jun  1  2019 passwd
+-rw-r--r--. 1 root root   1.1K Jun  1  2019 passwd-
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpkcs11[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpki[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpm[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpolkit-1[0m
+drwxr-xr-x. 1 root root      0 Jun 10  2014 [38;5;27mpopt.d[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpostfix[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mppp[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mprelink.conf.d[0m
+-rw-r--r--. 1 root root    233 Jun  7  2013 printcap
+-rw-r--r--. 1 root root   1.8K Oct 30  2018 profile
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mprofile.d[0m
+-rw-r--r--. 1 root root   6.4K Oct 30  2018 protocols
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mpython[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mqemu-ga[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mrc.d[0m
+lrwxrwxrwx. 1 root root     13 Jun  1  2019 [38;5;51mrc.local[0m -> rc.d/rc.local
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc0.d[0m -> [38;5;27mrc.d/rc0.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc1.d[0m -> [38;5;27mrc.d/rc1.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc2.d[0m -> [38;5;27mrc.d/rc2.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc3.d[0m -> [38;5;27mrc.d/rc3.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc4.d[0m -> [38;5;27mrc.d/rc4.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc5.d[0m -> [38;5;27mrc.d/rc5.d[0m
+lrwxrwxrwx. 1 root root     10 Jun  1  2019 [38;5;51mrc6.d[0m -> [38;5;27mrc.d/rc6.d[0m
+lrwxrwxrwx. 1 root root     14 Jun  1  2019 [38;5;51mredhat-release[0m -> centos-release
+-rw-r--r--. 1 root root   1.8K Jun 10  2014 request-key.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mrequest-key.d[0m
+-rw-r--r--. 1 root root     65 May 22 04:46 resolv.conf
+-rw-r--r--. 1 root root   1.6K Dec 25  2012 rpc
+drwxr-xr-x. 1 root root      0 Oct 30  2018 [38;5;27mrpm[0m
+-rw-r--r--. 1 root root    458 Apr 25  2019 rsyncd.conf
+-rw-r--r--. 1 root root   3.2K Oct 30  2018 rsyslog.conf
+drwxr-xr-x. 1 root root      0 Oct 30  2018 [38;5;27mrsyslog.d[0m
+-rw-r--r--. 1 root root    966 Oct 30  2018 rwtab
+drwxr-xr-x. 1 root root      0 Oct 30  2018 [38;5;27mrwtab.d[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27msamba[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27msasl2[0m
+-rw-------. 1 root root    221 Oct 30  2018 securetty
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27msecurity[0m
+drwxr-xr-x. 1 root root      0 May 22 04:47 [38;5;27mselinux[0m
+-rw-r--r--. 1 root root   655K Jun  7  2013 services
+-rw-r--r--. 1 root root    216 Jan 29  2019 sestatus.conf
+----------. 1 root root    644 Jun  1  2019 shadow
+----------. 1 root root    649 Jun  1  2019 shadow-
+-rw-r--r--. 1 root root     44 Oct 30  2018 shells
+drwxr-xr-x. 1 root root      0 Apr 11  2018 [38;5;27mskel[0m
+drwxr-xr-x. 1 root root      0 May 22 04:46 [38;5;27mssh[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mssl[0m
+-rw-r--r--. 1 root root    212 Oct 30  2018 statetab
+drwxr-xr-x. 1 root root      0 Oct 30  2018 [38;5;27mstatetab.d[0m
+-rw-r--r--. 1 root root      0 Oct 30  2018 subgid
+-rw-r--r--. 1 root root      0 Oct 30  2018 subuid
+-rw-r-----. 1 root root   3.2K Oct 30  2018 sudo-ldap.conf
+-rw-r-----. 1 root root   1.8K Oct 30  2018 sudo.conf
+-r--r-----. 1 root root   4.3K Oct 30  2018 sudoers
+drwxr-x---. 1 root root      0 Jun  1  2019 [38;5;27msudoers.d[0m
+drwxr-xr-x. 1 root root      0 May 22 04:46 [38;5;27msysconfig[0m
+-rw-r--r--. 1 root root    449 Oct 30  2018 sysctl.conf
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27msysctl.d[0m
+lrwxrwxrwx. 1 root root     14 Jun  1  2019 [38;5;51msystem-release[0m -> centos-release
+-rw-r--r--. 1 root root     23 Nov 23  2018 system-release-cpe
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27msystemd[0m
+drwxr-xr-x. 1 root root      0 Sep  6  2017 [38;5;27mterminfo[0m
+drwxr-xr-x. 1 root root      0 Apr 25  2019 [38;5;27mtmpfiles.d[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mtuned[0m
+drwxr-xr-x. 1 root root      0 May 22 04:46 [38;5;27mudev[0m
+-rw-r--r--. 1 root root     37 Jun  1  2019 vconsole.conf
+-rw-r--r--. 1 root root   2.0K Oct 30  2018 virc
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mvmware-tools[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mwpa_supplicant[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27mxdg[0m
+drwxr-xr-x. 1 root root      0 Apr 11  2018 [38;5;27mxinetd.d[0m
+drwxr-xr-x. 1 root root      0 Jun  1  2019 [38;5;27myum[0m
+-rw-r--r--. 1 root root    970 Nov  5  2018 yum.conf
+drwxr-xr-x. 1 root root      0 May 22 04:47 [38;5;27myum.repos.d[0m
+]0;root@server:~[root@server ~]# umount /backup/
+]0;root@server:~[root@server ~]# logout
+]0;vagrant@server:~[vagrant@server ~]$ logout
+Connection to 127.0.0.1 closed.
+]0;mkts@MkTsNix-KDE: ~/learing/otus_course/lesson17-backup/hw17[01;32mmkts@MkTsNix-KDE[00m:[01;34m~/learing/otus_course/lesson17-backup/hw17[00m$ exit
+
+Script done on 2020-05-22 10:51:01+06:00 [COMMAND_EXIT_CODE="0"]
